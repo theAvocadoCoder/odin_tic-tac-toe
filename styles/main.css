@@ -1,0 +1,60 @@
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-size: 12px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body * {
+  box-sizing: inherit;
+}
+
+#board-container {
+  height: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* max-height: 70vh; */
+}
+
+#gameboard {
+  height: 27em;
+  width: 27em;
+  display: flex;
+  flex-direction: column;
+}
+
+#gameboard>div {
+  flex: 1;
+  display: flex;
+}
+
+.cells {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5em;
+}
+
+#cell-1, #cell-2, #cell-4, #cell-5, #cell-7, #cell-8 {
+  border-right: 1px solid black;
+}
+
+#cell-2, #cell-3, #cell-5, #cell-6, #cell-8, #cell-9 {
+  border-left: 1px solid black;
+}
+
+#cell-1, #cell-2, #cell-3, #cell-4, #cell-5, #cell-6 {
+  border-bottom: 1px solid black;
+}
+
+#cell-4, #cell-5, #cell-6, #cell-7, #cell-8, #cell-9 {
+  border-top: 1px solid black;
+}
+
+#controls-container {
+  height: 30vh;
+}
