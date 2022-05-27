@@ -1,26 +1,46 @@
-const Board = (function () {
+const Gameboard = (function () {
+  // initialize the board array with 9 null values
+  const board = new Array(9).fill(null);
+  // const board = ['X', 'X', 'O', 'O', 'O', 'X', 'X', 'O', 'X']
+
+  // set the cell in the array to the current player's mark
   const setCell = (id, mark) => {
     board[id] = mark;
   }
+
   const getBoard = () => board;
-  // const gameBoard = new Array(9).fill(null);
-  const board = ['X', 'X', 'O', 'O', 'O', 'X', 'X', 'O', 'X']
+
   return {
     board: getBoard(),
     setCell,
   }
 })();
 
-const PlayerFactory = function (name, mark) {
+const PlayerFactory = function (name, mark, isCurrent) {
   const getName = () => name;
 
   const getMark = () => mark.toUpperCase();
 
+  const positions = [2, 3, 4, 5, 6];
+
+  const reset = () => {
+    // assign the length to a variable becasue it will change in the loop
+    const length = positions.length;
+    for (let i = 0; i < length; i++) {
+      // splice only first element because everything is getting spliced
+      positions.splice(0, 1);
+    }
+  }
+
   const makeMove = (e) => {
-    if (!e.target.firstChild) {
-      e.target.appendChild(document.createTextNode(`getMark()`));
+    if (e.target.firstChild === null && Game.current() === getMark()) {
+      e.target.appendChild(document.createTextNode(`${getMark()}`));
+      console.log('a move was just played')
       const id = e.target.id.split('').pop(); // This selects the very last character in the string
-      Board.setCell(id, getMark());
+      Gameboard.setCell(Number(id) - 1, getMark());
+      positions.push(id);
+      getMark() === 'X' ? Game.setCurrent('O') : Game.setCurrent('X');
+      Game.newMove();
     }
   }
 
@@ -28,18 +48,59 @@ const PlayerFactory = function (name, mark) {
     name: getName(),
     mark: getMark(),
     makeMove,
+    reset,
+    positions,
   }
 };
 
+const dummyPlayer1 = PlayerFactory('Dummy1', 'X', false);
+const dummyPlayer2 = PlayerFactory('Dummy2', 'O', false);
+
 const Game = (function () {
-  const start = function (board) {
-    for (let i = 0; i < board.length; i++) {
-      document.querySelector(`#cell-${i + 1}`).textContent = board[i];
+  let currentPlayer;
+
+  const checkIfWin = () => {}
+
+  const getCurrent = () => {
+    return currentPlayer;
+  }
+
+  const setCurrent = (mark) => {
+    currentPlayer = mark;
+  }
+
+  const start = () => {
+    currentPlayer = 'X';
+  }
+
+  let moves = 0;
+
+  const newMove = () => {
+    moves += 1;
+  }
+
+  getMoves = () => {
+    return moves;
+  }
+
+  const playerMove = (e) => {
+    if (currentPlayer === dummyPlayer1.mark) {
+      dummyPlayer1.makeMove(e);
+    } else if (currentPlayer === dummyPlayer2.mark) {
+      dummyPlayer2.makeMove(e);
     }
   }
+
   return {
-    start
+    start,
+    playerMove,
+    current: getCurrent,
+    setCurrent,
+    newMove,
+    moves: getMoves,
   }
+  
 })();
 
-window.onload = () => { Game.start(Board.board) };
+window.onload = () => { Game.start() };
+document.querySelector('#gameboard').addEventListener('click', Game.playerMove)
