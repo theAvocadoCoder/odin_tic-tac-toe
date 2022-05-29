@@ -1,4 +1,5 @@
 body {
+  background-color: aliceblue;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -9,6 +10,52 @@ body {
 
 body * {
   box-sizing: inherit;
+}
+
+#popup-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  display: none;
+}
+
+#popup-box {
+  width: 30em;
+  height: 30em;
+  background-color: aliceblue;
+  border-radius: 12%;
+  box-shadow: 1px 1px 20px -10px navy;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  padding: 2.5em;
+}
+
+#popup-close-btn {
+  flex: 0;
+  text-align: right;
+  font-size: larger;
+  font-weight: bold;
+  /* background-color: aquamarine; */
+}
+
+#popup-content {
+  flex: 1;
+  /* background-color: aqua; */
+}
+
+#controls-container {
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 1px 1px 20px -10px navy;
+}
+
+h1 {
+  text-align: center;
 }
 
 #board-container {
@@ -53,8 +100,4 @@ body * {
 
 #cell-4, #cell-5, #cell-6, #cell-7, #cell-8, #cell-9 {
   border-top: 1px solid black;
-}
-
-#controls-container {
-  height: 30vh;
 }

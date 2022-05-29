@@ -1,6 +1,6 @@
 const Gameboard = (function () {
   // initialize the board array with 9 null values
-  const board = new Array(9).fill(null);
+  const _board = new Array(9).fill(null);
   // const board = ['X', 'X', 'O', 'O', 'O', 'X', 'X', 'O', 'X']
 
   // set the cell in the array to the current player's mark
@@ -8,7 +8,7 @@ const Gameboard = (function () {
     board[id] = mark;
   }
 
-  const getBoard = () => board;
+  const getBoard = () => _board;
 
   return {
     board: getBoard(),
@@ -21,14 +21,14 @@ const PlayerFactory = function (name, mark) {
 
   const getMark = () => mark.toUpperCase();
 
-  const positions = [];
+  const _positions = [];
 
   const reset = () => {
     // assign the length to a variable becasue it will change in the loop
-    const length = positions.length;
+    const length = _positions.length;
     for (let i = 0; i < length; i++) {
       // splice only first element because everything is getting spliced
-      positions.splice(0, 1);
+      _positions.splice(0, 1);
     }
   }
 
@@ -37,22 +37,22 @@ const PlayerFactory = function (name, mark) {
       e.target.appendChild(document.createTextNode(`${getMark()}`));
       const id = e.target.id.split('').pop(); // This selects the very last character in the string
       Gameboard.setCell(Number(id) - 1, getMark());
-      positions.push(Number(id));
+      _positions.push(Number(id));
       getMark() === 'X' ? Game.setCurrent('O') : Game.setCurrent('X');
       Game.newMove();
     }
   }
 
   const isWinner = () => {
-    if (positions.length < 3) return false;
-    if (positions.includes(1) && positions.includes(2) && positions.includes(3)) return true;
-    if (positions.includes(4) && positions.includes(5) && positions.includes(6)) return true;
-    if (positions.includes(7) && positions.includes(8) && positions.includes(9)) return true;
-    if (positions.includes(1) && positions.includes(4) && positions.includes(7)) return true;
-    if (positions.includes(2) && positions.includes(5) && positions.includes(8)) return true;
-    if (positions.includes(3) && positions.includes(6) && positions.includes(9)) return true;
-    if (positions.includes(1) && positions.includes(5) && positions.includes(9)) return true;
-    if (positions.includes(3) && positions.includes(5) && positions.includes(7)) return true;
+    if (_positions.length < 3) return false;
+    if (_positions.includes(1) && _positions.includes(2) && _positions.includes(3)) return true;
+    if (_positions.includes(4) && _positions.includes(5) && _positions.includes(6)) return true;
+    if (_positions.includes(7) && _positions.includes(8) && _positions.includes(9)) return true;
+    if (_positions.includes(1) && _positions.includes(4) && _positions.includes(7)) return true;
+    if (_positions.includes(2) && _positions.includes(5) && _positions.includes(8)) return true;
+    if (_positions.includes(3) && _positions.includes(6) && _positions.includes(9)) return true;
+    if (_positions.includes(1) && _positions.includes(5) && _positions.includes(9)) return true;
+    if (_positions.includes(3) && _positions.includes(5) && _positions.includes(7)) return true;
     return false;
   }
 
@@ -68,8 +68,66 @@ const PlayerFactory = function (name, mark) {
 const dummyPlayer1 = PlayerFactory('Dummy1', 'X', false);
 const dummyPlayer2 = PlayerFactory('Dummy2', 'O', false);
 
+const popupContent = (function () {
+
+  const _openPopup = () => {
+    const popupContainer = document.querySelector('#popup-container');
+    popupContainer.style.display = 'flex';
+    return console.log('Popup opened');
+  }
+
+  const _closePopup = () => {
+    const popupContainer = document.querySelector('#popup-container');
+    popupContainer.style.display = 'none';
+    return console.log('Popup closed');
+  }
+
+  const closeBtn = () => {
+    const closeBtn = document.querySelector('#popup-close-btn');
+    closeBtn.addEventListener('click', _closePopup);
+    return console.log('Close button now pressable');
+  }
+
+  const _addToContent = (div) => {
+    const content = document.querySelector('#popup-content');
+    if (content.firstChild != null) content.removeChild(content.firstChild);
+    content.appendChild(div);
+    _openPopup();
+    return console.log('Popup content added');
+  }
+
+  const getName = (mark) => {
+    const div = document.createElement('div');
+    const h3 = document.createElement('h3');
+    const form = document.createElement('form');
+    const label = document.createElement('label');
+    const input = document.createElement('input');
+    label.htmlFor = 'nameInput';
+    input.id = 'nameInput';
+    input.name = `player ${mark}`;
+    div.style = {
+      'display':'flex', 
+      'flex-direction':'column',
+    }
+    h3.appendChild(document.createTextNode(`Hi, Player ${mark.toUpperCase() === 'X' ? 1 : 2}. You'll be ${mark}`));
+    label.appendChild(document.createTextNode('Please enter your name:'));
+    form.appendChild(label);
+    form.appendChild(input);
+    div.appendChild(h3);
+    div.appendChild(form);
+    _addToContent(div);
+    return console.log('Popup name form set');
+  }
+
+  return {
+    closeBtn,
+    getName,
+  }
+})()
+
 const Game = (function () {
   let currentPlayer;
+  const players = [];
 
   const getCurrent = () => {
     return currentPlayer;
@@ -81,6 +139,10 @@ const Game = (function () {
 
   const start = () => {
     currentPlayer = 'X';
+    const player1Name = null;
+    const player2Name = null;
+    players.push(PlayerFactory(player1Name, 'X'));
+    players.push(PlayerFactory(player2Name, 'O'));
   }
 
   let moves = 0;
@@ -115,4 +177,4 @@ const Game = (function () {
 })();
 
 window.onload = () => { Game.start() };
-document.querySelector('#gameboard').addEventListener('click', Game.playerMove)
+document.querySelector('#gameboard').addEventListener('click', Game.playerMove);
