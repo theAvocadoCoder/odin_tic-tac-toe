@@ -5,7 +5,7 @@ const Gameboard = (function () {
 
   // set the cell in the array to the current player's mark
   const setCell = (id, mark) => {
-    board[id] = mark;
+    _board[id] = mark;
   }
 
   const getBoard = () => _board;
@@ -96,32 +96,44 @@ const popupContent = (function () {
     return console.log('Popup content added');
   }
 
-  const getName = (mark) => {
+  const displayWinner = (name, mark) => {
+    const div = document.createElement('div');
+    const p = document.createElement('p');
+    p.appendChild(document.createTextNode(`${name} (${mark}) has won!`));
+    div.appendChild(p);
+    _addToContent(div);
+  }
+
+  const getNames = (mark='X') => {
     const div = document.createElement('div');
     const h3 = document.createElement('h3');
-    const form = document.createElement('form');
     const label = document.createElement('label');
     const input = document.createElement('input');
-    label.htmlFor = 'nameInput';
-    input.id = 'nameInput';
-    input.name = `player ${mark}`;
+    const submitBtn = document.createElement('button');
+    input.id = `player-${mark}-input`;
+    label.htmlFor = `player-${mark}-input`;
     div.style = {
       'display':'flex', 
       'flex-direction':'column',
     }
+    submitBtn.type = 'button';
+    submitBtn.onclick = () => { Game.makePlayer(input.value, mark.toUpperCase()); _closePopup(); if (mark === 'X') getNames('O'); };
     h3.appendChild(document.createTextNode(`Hi, Player ${mark.toUpperCase() === 'X' ? 1 : 2}. You'll be ${mark}`));
     label.appendChild(document.createTextNode('Please enter your name:'));
-    form.appendChild(label);
-    form.appendChild(input);
+    submitBtn.appendChild(document.createTextNode('Submit'));
     div.appendChild(h3);
-    div.appendChild(form);
+    div.appendChild(label);
+    div.appendChild(input);
+    div.appendChild(document.createElement('br'));
+    div.appendChild(submitBtn);
     _addToContent(div);
     return console.log('Popup name form set');
   }
 
   return {
     closeBtn,
-    getName,
+    displayWinner,
+    getNames,
   }
 })()
 
@@ -138,11 +150,9 @@ const Game = (function () {
   }
 
   const start = () => {
+    popupContent.closeBtn();
     currentPlayer = 'X';
-    const player1Name = null;
-    const player2Name = null;
-    players.push(PlayerFactory(player1Name, 'X'));
-    players.push(PlayerFactory(player2Name, 'O'));
+    popupContent.getNames();
   }
 
   let moves = 0;
@@ -155,18 +165,27 @@ const Game = (function () {
     return moves;
   }
 
+  const makePlayer = (name, mark) => {
+    players.push(PlayerFactory(name, mark));
+  }
+
   const playerMove = (e) => {
-    if (currentPlayer === dummyPlayer1.mark) {
-      dummyPlayer1.makeMove(e);
-      dummyPlayer1.isWinner() ? alert('X is the winner') : console.log('X has played');
-    } else if (currentPlayer === dummyPlayer2.mark) {
-      dummyPlayer2.makeMove(e);
-      dummyPlayer2.isWinner() ? alert('O is the winner') : console.log('O has played');
+    if (currentPlayer === players[0].mark) {
+      players[0].makeMove(e);
+      if (players[0].isWinner()) setTimeout(() => {
+        popupContent.displayWinner(players[0].name, players[0].mark);
+      }, 100);
+    } else if (currentPlayer === players[1].mark) {
+      players[1].makeMove(e);
+      if (players[1].isWinner()) setTimeout(() => {
+        popupContent.displayWinner(players[1].name, players[1].mark);
+      }, 100);
     }
   }
 
   return {
     start,
+    makePlayer,
     playerMove,
     current: getCurrent,
     setCurrent,
