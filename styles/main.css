@@ -42,6 +42,10 @@ body * {
   /* background-color: aquamarine; */
 }
 
+#popup-close-btn:hover {
+  cursor: pointer;
+}
+
 #popup-content {
   flex: 1;
   /* background-color: aqua; */
