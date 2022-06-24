@@ -1,7 +1,6 @@
 const Gameboard = (function () {
   // initialize the board array with 9 null values
   const _board = new Array(9).fill(null);
-  // const board = ['X', 'X', 'O', 'O', 'O', 'X', 'X', 'O', 'X']
 
   // set the cell in the array to the current player's mark
   const setCell = (id, mark) => {
@@ -65,9 +64,6 @@ const PlayerFactory = function (name, mark) {
   }
 };
 
-const dummyPlayer1 = PlayerFactory('Dummy1', 'X', false);
-const dummyPlayer2 = PlayerFactory('Dummy2', 'O', false);
-
 const popupContent = (function () {
 
   const _openPopup = () => {
@@ -82,16 +78,24 @@ const popupContent = (function () {
     return console.log('Popup closed');
   }
 
-  const closeBtn = () => {
-    const closeBtn = document.querySelector('#popup-close-btn');
-    closeBtn.addEventListener('click', _closePopup);
-    return console.log('Close button now pressable');
+  const closeBtn = (closeCallback) => {
+    const closeBtn = document.createElement('div');
+    closeBtn.id = 'popup-close-btn';
+    closeBtn.appendChild(document.createTextNode('x'));
+    closeBtn.addEventListener('click', closeCallback);
+    console.log('Close button now pressable');
+    return closeBtn;
   }
 
-  const _addToContent = (div) => {
+  const _addToContent = (div, closeCallback=[]) => {
     const content = document.querySelector('#popup-content');
     if (content.firstChild != null) content.removeChild(content.firstChild);
     content.appendChild(div);
+    if (closeCallback.length > 0) {
+      const popupBox = document.querySelector('#popup-box');
+      if (popupBox.lastChild.id === '#popup-close-btn') popupBox.removeChild(popupBox.lastChild);
+      popupBox.appendChild(closeBtn(closeCallback[0]));
+    };
     _openPopup();
     return console.log('Popup content added');
   }
@@ -101,7 +105,7 @@ const popupContent = (function () {
     const p = document.createElement('p');
     p.appendChild(document.createTextNode(`${name} (${mark}) has won!`));
     div.appendChild(p);
-    _addToContent(div);
+    _addToContent(div, [_closePopup]);
   }
 
   const getNames = (mark='X') => {
@@ -150,7 +154,6 @@ const Game = (function () {
   }
 
   const start = () => {
-    popupContent.closeBtn();
     currentPlayer = 'X';
     popupContent.getNames();
   }
@@ -166,7 +169,7 @@ const Game = (function () {
   }
 
   const makePlayer = (name, mark) => {
-    players.push(PlayerFactory(name, mark));
+    players.push(new PlayerFactory(name, mark));
   }
 
   const playerMove = (e) => {

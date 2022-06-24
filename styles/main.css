@@ -29,7 +29,7 @@ body * {
   border-radius: 12%;
   box-shadow: 1px 1px 20px -10px navy;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 2em;
   padding: 2.5em;
 }
