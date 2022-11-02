@@ -168,7 +168,10 @@ const Game = (function () {
 
   const reset = () => {
     players.forEach(player => {
+      // reset the players' data except names and marks
       player.reset();
+      // Set next player to be whoever won
+      if (player.isWinner) currentPlayer = player.mark;
     })
     Gameboard.resetBoard();
     for (let i = 1; i <= 9; i++) {
@@ -176,12 +179,6 @@ const Game = (function () {
       if (cell.firstChild != null) cell.removeChild(cell.firstChild);
     }
     moves = 0;
-    // assign the length to a variable becasue it will change in the loop
-    const length = players.length;
-    for (let i = 0; i < length; i++) {
-      // splice only first element because everything is getting spliced
-      players.splice(0, 1);
-    }
   }
 
   let moves = 0;
