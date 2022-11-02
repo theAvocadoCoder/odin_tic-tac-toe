@@ -74,7 +74,6 @@ const popupContent = (function () {
   const _openPopup = () => {
     const popupContainer = document.querySelector('#popup-container');
     popupContainer.style.display = 'flex';
-    return console.log('Popup opened');
   }
 
   const _closePopup = () => {
@@ -170,7 +169,7 @@ const Game = (function () {
   }
 
   const start = () => {
-    currentPlayer = 'X';
+    setCurrent('X');
     popupContent.getNames();
   }
 
@@ -178,8 +177,6 @@ const Game = (function () {
     players.forEach(player => {
       // reset the players' data except names and marks
       player.reset();
-      // Set next player to be whoever won
-      if (player.isWinner()) currentPlayer = player.mark;
     })
 
     Gameboard.resetBoard();
@@ -209,11 +206,15 @@ const Game = (function () {
       players[0].makeMove(e);
       if (players[0].isWinner()) setTimeout(() => {
         popupContent.displayWinner(players[0].name, players[0].mark);
+        // Winner gets to be next player
+        setCurrent(players[0].mark);
       }, 100);
     } else if (currentPlayer === players[1].mark) {
       players[1].makeMove(e);
       if (players[1].isWinner()) setTimeout(() => {
         popupContent.displayWinner(players[1].name, players[1].mark);
+        // Winner gets to be next player
+        setCurrent(players[1].mark);
       }, 100);
     }
     displayCurrent();
