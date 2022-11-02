@@ -80,7 +80,6 @@ const popupContent = (function () {
   const _closePopup = () => {
     const popupContainer = document.querySelector('#popup-container');
     popupContainer.style.display = 'none';
-    return console.log('Popup closed');
   }
 
   const closeBtn = (closeCallback) => {
@@ -88,7 +87,6 @@ const popupContent = (function () {
     closeBtn.id = 'popup-close-btn';
     closeBtn.appendChild(document.createTextNode('x'));
     closeBtn.addEventListener('click', closeCallback);
-    console.log('Close button now pressable');
     return closeBtn;
   }
 
@@ -102,7 +100,6 @@ const popupContent = (function () {
       popupBox.appendChild(closeBtn(closeCallback[0]));
     };
     _openPopup();
-    return console.log('Popup content added');
   }
 
   const displayWinner = (name, mark) => {
@@ -140,7 +137,6 @@ const popupContent = (function () {
     div.appendChild(document.createElement('br'));
     div.appendChild(submitBtn);
     _addToContent(div);
-    return console.log('Popup name form set');
   }
 
   return {
