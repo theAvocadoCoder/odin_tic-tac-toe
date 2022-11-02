@@ -110,7 +110,10 @@ const popupContent = (function () {
     const p = document.createElement('p');
     p.appendChild(document.createTextNode(`${name} (${mark}) has won!`));
     div.appendChild(p);
-    _addToContent(div, [_closePopup]);
+    _addToContent(div, [function closePopupAndReset() {
+      Game.reset();
+      _closePopup();
+    }]);
   }
 
   const getNames = (mark='X') => {
