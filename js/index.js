@@ -7,11 +7,18 @@ const Gameboard = (function () {
     _board[id] = mark;
   }
 
+  const resetBoard = () => {
+    _board.forEach(cell => {
+      cell = null;
+    })
+  }
+
   const getBoard = () => _board;
 
   return {
     board: getBoard(),
     setCell,
+    resetBoard,
   }
 })();
 
