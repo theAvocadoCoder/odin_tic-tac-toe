@@ -98,7 +98,7 @@ const popupContent = (function () {
     content.appendChild(div);
     if (closeCallback.length > 0) {
       const popupBox = document.querySelector('#popup-box');
-      if (popupBox.lastChild.id === '#popup-close-btn') popupBox.removeChild(popupBox.lastChild);
+      if (document.querySelector('#popup-close-btn') != null) popupBox.removeChild(popupBox.lastChild);
       popupBox.appendChild(closeBtn(closeCallback[0]));
     };
     _openPopup();
