@@ -166,6 +166,24 @@ const Game = (function () {
     popupContent.getNames();
   }
 
+  const reset = () => {
+    players.forEach(player => {
+      player.reset();
+    })
+    Gameboard.resetBoard();
+    for (let i = 1; i <= 9; i++) {
+      let cell = document.querySelector(`#cell-${i}`);
+      if (cell.firstChild != null) cell.removeChild(cell.firstChild);
+    }
+    moves = 0;
+    // assign the length to a variable becasue it will change in the loop
+    const length = players.length;
+    for (let i = 0; i < length; i++) {
+      // splice only first element because everything is getting spliced
+      players.splice(0, 1);
+    }
+  }
+
   let moves = 0;
 
   const newMove = () => {
@@ -195,7 +213,9 @@ const Game = (function () {
   }
 
   return {
+    players,
     start,
+    reset,
     makePlayer,
     playerMove,
     current: getCurrent,
