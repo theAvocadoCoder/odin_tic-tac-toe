@@ -58,6 +58,12 @@ body * {
   box-shadow: 1px 1px 20px -10px navy;
 }
 
+#current-player {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 h1 {
   text-align: center;
 }
