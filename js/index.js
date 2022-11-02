@@ -113,6 +113,7 @@ const popupContent = (function () {
     _addToContent(div, [function closePopupAndReset() {
       Game.reset();
       _closePopup();
+      Game.displayCurrent();
     }]);
   }
 
@@ -129,7 +130,7 @@ const popupContent = (function () {
       'flex-direction':'column',
     }
     submitBtn.type = 'button';
-    submitBtn.onclick = () => { Game.makePlayer(input.value, mark.toUpperCase()); _closePopup(); if (mark === 'X') getNames('O'); };
+    submitBtn.onclick = () => { Game.makePlayer(input.value, mark.toUpperCase()); _closePopup(); mark === 'X' ? getNames('O') : Game.displayCurrent(); };
     h3.appendChild(document.createTextNode(`Hi, Player ${mark.toUpperCase() === 'X' ? 1 : 2}. You'll be ${mark}`));
     label.appendChild(document.createTextNode('Please enter your name:'));
     submitBtn.appendChild(document.createTextNode('Submit'));
@@ -153,6 +154,17 @@ const Game = (function () {
   let currentPlayer;
   const players = [];
 
+  const displayCurrent = () => {
+    const currentDiv = document.querySelector("#current-player");
+    if (currentDiv.firstChild != null) currentDiv.removeChild(currentDiv.firstChild);
+    const playerName = players[0].mark === currentPlayer
+      ? players[0].name
+      : players[1].mark === currentPlayer
+      ? players[1].name
+      : players[0].name;
+    currentDiv.appendChild(document.createTextNode(`${playerName}(${currentPlayer}) is to play.`));
+  }
+
   const getCurrent = () => {
     return currentPlayer;
   }
@@ -171,8 +183,9 @@ const Game = (function () {
       // reset the players' data except names and marks
       player.reset();
       // Set next player to be whoever won
-      if (player.isWinner) currentPlayer = player.mark;
+      if (player.isWinner()) currentPlayer = player.mark;
     })
+
     Gameboard.resetBoard();
     for (let i = 1; i <= 9; i++) {
       let cell = document.querySelector(`#cell-${i}`);
@@ -207,6 +220,7 @@ const Game = (function () {
         popupContent.displayWinner(players[1].name, players[1].mark);
       }, 100);
     }
+    displayCurrent();
   }
 
   return {
@@ -215,6 +229,7 @@ const Game = (function () {
     reset,
     makePlayer,
     playerMove,
+    displayCurrent,
     current: getCurrent,
     setCurrent,
     newMove,
