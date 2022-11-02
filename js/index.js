@@ -30,11 +30,9 @@ const PlayerFactory = function (name, mark) {
   const _positions = [];
 
   const reset = () => {
-    // assign the length to a variable becasue it will change in the loop
-    const length = _positions.length;
-    for (let i = 0; i < length; i++) {
-      // splice only first element because everything is getting spliced
-      _positions.splice(0, 1);
+    for (let i = 0; i < _positions.length;) {
+      // remove the last element till array is empty
+      _positions.pop();
     }
   }
 
