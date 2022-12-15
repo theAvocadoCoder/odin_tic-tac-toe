@@ -121,12 +121,17 @@ const popupContent = (function () {
     const submitBtn = document.createElement('button');
     input.id = `player-${mark}-input`;
     label.htmlFor = `player-${mark}-input`;
-    div.style = {
-      'display':'flex', 
-      'flex-direction':'column',
-    }
     submitBtn.type = 'button';
-    submitBtn.onclick = () => { Game.makePlayer(input.value, mark.toUpperCase()); _closePopup(); mark === 'X' ? getNames('O') : Game.displayCurrent(); };
+    submitBtn.onclick = () => {
+      Game.makePlayer(input.value, mark.toUpperCase());
+      _closePopup();
+      if (mark === 'X') {
+        getNames("O");
+      } else {
+        document.querySelector("#start-btn").disabled = true;
+        Game.displayCurrent();
+      }
+    };
     h3.appendChild(document.createTextNode(`Hi, Player ${mark.toUpperCase() === 'X' ? 1 : 2}. You'll be ${mark}`));
     label.appendChild(document.createTextNode('Please enter your name:'));
     submitBtn.appendChild(document.createTextNode('Submit'));
@@ -174,10 +179,13 @@ const Game = (function () {
   }
 
   const reset = () => {
-    players.forEach(player => {
-      // reset the players' data except names and marks
-      player.reset();
-    })
+    // players.forEach(player => {
+    //   // reset the players' data except names and marks
+    //   player.reset();
+    // })
+    do {
+      players.pop();
+    } while (players.length > 0)
 
     Gameboard.resetBoard();
     for (let i = 1; i <= 9; i++) {
@@ -185,6 +193,8 @@ const Game = (function () {
       if (cell.firstChild != null) cell.removeChild(cell.firstChild);
     }
     moves = 0;
+    document.querySelector("#start-btn").disabled = false;
+    document.querySelector("#current-player").removeChild(document.querySelector("#current-player").firstChild);
   }
 
   let moves = 0;
@@ -235,5 +245,7 @@ const Game = (function () {
   
 })();
 
-window.onload = () => { Game.start() };
+// window.onload = () => { Game.start() };
 document.querySelector('#gameboard').addEventListener('click', Game.playerMove);
+document.querySelector("#reset-btn").addEventListener("click", Game.reset);
+document.querySelector("#start-btn").addEventListener("click", Game.start);
