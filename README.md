@@ -1,65 +1,56 @@
-# The Odin Project - Tic-Tac-Toe Game
+# Tic Tac Toe Game Documentation
 
 This is a submission for the [TicTacToe Project on The Odin Project's JavaScript Course](https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe). 
 
-## Table of contents
-
-- [Overview](#overview)
-  - [The project](#the-project)
-  - [Screenshot](#screenshot)
-  - [Links](#links)
-- [My process](#my-process)
-  - [Built with](#built-with)
-  - [Lessons](#lessons)
-  - [Continued development](#continued-development)
-  - [Useful resources](#useful-resources)
-- [Author](#author)
+![Tic-Tac-Toe image](./assets/tic-tac-toe.png)
 
 ## Overview
 
-### The project
+Welcome to my Tic Tac Toe game! This project is a simple implementation of the classic Tic Tac Toe game using HTML, CSS, and JavaScript. As a junior developer, I aimed to showcase my understanding of fundamental programming concepts such as encapsulation, factory functions, DOM manipulation, and Immediately Invoked Function Expressions (IIFE).
 
-Users should be able to:
+## Game Features
 
- <!--Insert Project requirements here  -->
+- **Player vs Player**: Play against a friend and take turns marking the spaces on the board.
+- **Interactive Interface**: Enjoy a user-friendly interface that responds to your clicks, making the gameplay intuitive.
+- **Winning Logic**: The game automatically checks for a winner after each move and declares the result.
 
-### Screenshot
+## Project Structure
 
-<!-- ![](Insert screenshot url here) -->
+- **HTML**: The structure of the game board and user interface.
+- **CSS**: Styling to enhance the visual appeal of the game.
+- **JavaScript**: The game's logic and functionality.
 
-### Links
+## Concepts Demonstrated
 
-- Solution URL: [Github Repo](https://github.com/theAvocadoCoder/odin_tic-tac-toe)
-- Live Site URL: [Single Price Grid Component](https://theavocadocoder.github.io/odin_tic-tac-toe)
+1. **Encapsulation**: The game logic is encapsulated within functions and classes to maintain a clean and organized codebase.
 
-## My process
+2. **Factory Functions**: Factory functions are employed to create instances of the game and manage the state of each player.
 
-### Built with
+3. **DOM Manipulation**: JavaScript is used to dynamically manipulate the Document Object Model (DOM), updating the UI based on user interactions.
 
-- Semantic HTML5 markup
-- Plain CSS
-- Javascript
+4. **IIFE's (Immediately Invoked Function Expressions)**: IIFE's are leveraged to create private scopes for certain functions, preventing variable conflicts and promoting modular code.
 
-### Lessons
+## How to Play
 
-The essence of this project was to put to practice my (arguably) newly acquired knowledge of IIFE's, function classes, factory functions, amongst other such topics.
+### Get a local copy
 
-I enjoyed creating the factory functions for the player objects.
+1. Clone the repository to your local machine.
+   ```bash
+   git clone https://github.com/your-username/tic-tac-toe.git
+   ```
 
+2. Open the `index.html` file in your web browser.
 
-### Continued development
+3. Click on the squares to make your moves and enjoy the game!
 
-This project has confirmed to me that my understanding of functional classes is a little lacking. I would be doing a lot of reading up, as well as more projects to compensate for that deficit.
+### View live site
 
-Despite the page being (technically) mobile responsive, I would have preferred if that responsiveness was more in line with best practices. I believe my failing here to be my lack of skill in the design department. And while I can make no promises to brush up on my design skills, I will be making it a duty to download a design template whenever I embark on a project that gives me that creative freedom.
+Alternatively, you can play on the [live site](https://theavocadocoder.github.io/odin_tic-tac-toe/)
 
-I would like to pay more attention to my commits and comments. While I recognize that my comments in this codebase are passable and my commits relatively atomic, I believe the room for improvement should be utilized. I understand that comments aid code legibility, while commits, when done properly, improve debugging, task tracking and accountability. As such, I will be more intentional about these in coming projects.
+## About Me
 
-### Useful resources
+I am a junior developer passionate about creating interactive and engaging web applications. This project reflects my ongoing learning journey and commitment to mastering essential programming concepts.
 
-- [DevDocs](https://devdocs.io/) - I believe this to be one of the most powerful resources currently in my arsenal. It is chuck full of documentation on most programming languages, libraries and frameworks. Plus, it works offline and on mobile
+Feel free to reach out if you have any questions or suggestions for improvement!
 
-## Author
-
-- Website - [theAvocadoCoder](https://theavocadocoder.github.io)
-- Twitter - [@theAvocadoCoder](https://www.twitter.com/theAvocadoCoder)
+Happy gaming! 🎮
